@@ -35,14 +35,14 @@ int1_func = function(x) {
 }
 
 int2_func = function(x) {
-  return(dnorm(x/a2, E2mean, E2sd))
+  return(dnorm(x/a2, E2mean, E2sd)*x)
 }
 
 #int1 = integrate(int1_func,-Inf,Inf)$value
 #int2 = integrate(int2_func, -Inf, Inf)$value
 
-int1 = 0.49
-int2 = 1
+int1 = 0.49*E1mean #Results correlates with numerical integration, hoor~ay! 
+int2 = E2mean
 
 p_a = (E1mean - 1/a2 * int2)/(1/a1 * int1 - 1/a2 * int2)
 cat("Method of moments:", sprintf("p = %f", p_a))
