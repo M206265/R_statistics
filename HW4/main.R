@@ -41,7 +41,7 @@
           return(matrice)
         }
 
-        data=generate_on(N)
+        data=generate_on(2*N)
         
           mod_data=function(v1,v2){ #Возвращает модуль (длину) расстояния между точками v2 и v1
             mod=sqrt(sum((v2-v1)^2))
@@ -54,16 +54,14 @@
           sum = 0
           n = (1:N)
           for (i in n){
-            d = mod_data(c(data$x[i],data$y[i],data$z[i]),
-                         c(data$x[N-i],data$y[N-i],data$z[N-i]))
+            d = mod_data(c(data$x[2*i],data$y[2*i],data$z[2*i]),
+                         c(data$x[2*i-1],data$y[2*i-1],data$z[2*i-1]))
             r[i] = d
             sum = sum + d
             
             mean[i] = sum/i                # Среднее зн-е.
             disp[i] = sum( (r - mean)^2 )/i  # Выб. дисперсия.
           }
-          
-
           
   #Построим график зависимости среднего арифметического первых n элементов от n.
           setwd("D:\\вуз\\R\\programs\\HW4")
@@ -75,22 +73,26 @@
           conf_level = 0.95
           signif_level = 1 - conf_level
           
+          disp_max = 3 # т.к. расстояния на поверхности не больше 3 
           tmp = 0
           for(i in 1:N) {
             j = i * 50
-            low = mean[j] - sqrt(disp[j]/j/signif_level) # Дов. интервал с использованием неравенства Чебышева
-            upp = mean[j] + sqrt(disp[j]/j/signif_level)
+            disp_tmp = disp_max**4/j
+            low = mean[j] - sqrt(disp_tmp/j/signif_level) # Дов. интервал с использованием неравенства Чебышева
+            upp = mean[j] + sqrt(disp_tmp/j/signif_level)
             if (upp - low < 0.1 && j == 0) {
               tmp = j
             }
             lines(rep(j, 2), c(low, upp), col = "red")
           }
           
+         
           plot(n, disp, type = 'p', pch = '.', ylim = c(0, 0.5))
           for(i in 1:N) {
             j = i * 50
-           low = (j - 1) * disp[j] / qchisq(0.975, j - 1)
-           upp = (j - 1) * disp[j] / qchisq(0.025, j - 1)
+           disp_tmp = disp_max**4/j
+           low = disp[j] - sqrt(disp_tmp/j/signif_level)
+           upp = disp[j] + sqrt(disp_tmp/j/signif_level)
             lines(rep(j, 2), c(low, upp), col = "red")
           }
           
@@ -123,3 +125,5 @@
   # Полученный результат - 0, следовательно, монету нельзя считать честной.
           
     dev.off()
+    
+    
