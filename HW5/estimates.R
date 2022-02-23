@@ -72,7 +72,7 @@ lnLikelihood = function(t, data){
 }
 tmp0 = seq(-1, 1, 0.01);
 tmp1 = lnLikelihood(tmp0, data)
-
+tmp2 = min(data)
 p_b = -1 + 0.01 * (which.max(tmp1)- 1)
 cat("Maximum likelihood method:", sprintf("p = %f", p_b))
 
@@ -85,7 +85,7 @@ plot(tmp0, lnLikelihood(tmp0, data),
      xlab = 'p',
      ylab = 'log L',
      main = 'Logariphm of Likelihood function')
-
+``
 lines(c(p_b, p_b), c(min(tmp1, na.rm = TRUE), max(tmp1,  na.rm = TRUE)),
       type = 'l',
       col = 'red',

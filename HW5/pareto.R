@@ -42,7 +42,7 @@ plotGraphs = function(data, main, xlab, x0, a){
 
 setwd("D:\\вуз\\R\\programs\\HW5")
 data = as.numeric(read.csv("neowise_mainbelt.csv", header = FALSE)[,12])
-pdf(file = "pareto.pdf")
+#pdf(file = "pareto.pdf")
 
 #In case x < x0: F(x) = P(X < x) = 0, so we can use
 x0 = min(data)
@@ -66,20 +66,7 @@ cat("Maximum likelihood method:", sprintf("x0 = %f, a = %f", x0, a))
 plotGraphs(data,"Maximum likelihood method", "diameters of asteroids, m", x0, a)
 
 # ---------------------------------------------------------------------------------------------
-# In the maximum likelihood method we are looking for a maximum of the function.
-# In cases with x < x0 our values lay lower than with x0 => we can use x0 = min(data) as our "threshold"
-
-a_tmp = c()
-x = seq(0, min(data), 0.01)
-
-for (i in (1:length(x))){
-  a_tmp[i] = length(data) / (sum(log(data)) - length(data) * log(x[i]))}
-
-plot(x, a_tmp, pch = '.')
-lines(x0, a, col = 'red', type = 'p', pch = 'o')
-
-# ---------------------------------------------------------------------------------------------
-# b) Least squares method
+# b) Least squares method 
 # ---------------------------------------------------------------------------------------------
 # y = Xb + e,  b is an estimated parameter, e is an intercept
 Fn = ecdf(data)
